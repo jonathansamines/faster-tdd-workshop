@@ -13,11 +13,10 @@ describe('App', function() {
 		const app = new App(cli);
 
 		// act
-		const expected = 'uryyb';
-		const actual = app.transform();
+		app.run();
 
 		// assert
-		expect(actual).to.be.equal(expected);
+		expect(cli.getLastOutput()).to.be.equal('uryyb');
 
 		// reset
 	});
@@ -30,10 +29,9 @@ describe('App', function() {
 
 			const app = new App();
 
-			const actual = app.transform();
-			const expected = 'uryyb';
+			app.run();
 
-            expect(actual).to.be.equal(expected);
+            expect(app._cli.getLastOutput()).to.be.equal('uryyb');
         } finally {
             process.argv = oldArgs;
 		}

@@ -8,9 +8,10 @@ module.exports = class Application {
         this._cli = cli;
     }
 
-    transform() {
+    run() {
         const input = this._cli.getArg();
-        
-        return rot13.cypher(input);
+        const output = rot13.cypher(input);
+
+        this._cli.output(output);
     }
 };
