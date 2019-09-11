@@ -20,4 +20,13 @@ describe('Command line', () => {
             process.argv = oldArgs;
         }
     });
+
+    it('argument is nullable', () => {
+        const cli = CommandLine.createNull('my-arg');
+
+        const actual = cli.getArg();
+        const expected = 'my-arg';
+
+        expect(actual).to.be.equal(expected);
+    });
 });
