@@ -10,20 +10,37 @@ class NullProcess {
     }
 }
 
+class NullConsole {
+    log() {
+
+    }
+}
+
 module.exports = class CommandLine {
     static create() {
-        return new CommandLine(process);
+        return new CommandLine(process, console);
     }
 
     static createNull(arg) {
-        return new CommandLine(new NullProcess(arg));
+        return new CommandLine(new NullProcess(arg), new NullConsole());
     }
 
-    constructor(proc) {
+    constructor(proc, cons) {
+        this._cons = cons;
         this._proc = proc;
+        this._out = null;
     }
     
     getArg() {
         return this._proc.argv[2];
+    }
+
+    output(arg) {
+        this._out = arg;
+        this._cons.log(arg);
+    }
+
+    getLastOutput() {
+        return this._out;
     }
 };

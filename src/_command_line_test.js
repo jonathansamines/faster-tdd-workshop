@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
+const { stdout } = require('test-console');
 const CommandLine = require('./command-line.js');
 
 describe('Command line', () => {
@@ -28,5 +29,35 @@ describe('Command line', () => {
         const expected = 'my-arg';
 
         expect(actual).to.be.equal(expected);
+    });
+
+    it('outputs to the console', () => {
+        stdout.inspectSync((output) => {
+            const cli = CommandLine.create();
+
+            cli.output('my output');
+
+            expect(output).to.be.deep.equal(['my output\n']);
+        });
+    });
+
+    it('output is nullable', () => {
+        stdout.inspectSync((output) => {
+            const cli = CommandLine.createNull();
+
+            cli.output('my output');
+
+            expect(output).to.be.deep.equal([]);
+        });
+    });
+
+    it('remembers the last line written to console', () => {
+        const cli = CommandLine.createNull();
+
+        expect(cli.getLastOutput()).to.be.equal(null);
+
+        cli.output('my output');
+
+        expect(cli.getLastOutput()).to.be.equal('my output');
     });
 });
